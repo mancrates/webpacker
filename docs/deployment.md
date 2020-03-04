@@ -25,8 +25,8 @@ In order for your Webpacker app to run on Heroku, you'll need to do a bit of con
 ```
 heroku create my-webpacker-heroku-app
 heroku addons:create heroku-postgresql:hobby-dev
-heroku buildpacks:add heroku/nodejs
 heroku buildpacks:add heroku/ruby
+heroku config:set YARN_PRODUCTION=true
 git push heroku master
 ```
 
@@ -34,9 +34,10 @@ We're essentially doing the following here:
 
 * Creating an app on Heroku
 * Creating a Postgres database for the app (this is assuming that you're using Heroku Postgres for your app)
-* Adding the Heroku NodeJS and Ruby buildpacks for your app. This allows the `npm` or `yarn` executables to properly function when compiling your app - as well as Ruby.
+* Adding the Ruby buildpack for your app. On Heroku the ruby build pack includes Node by default and allows `yarn` executables to properly function when compiling your app - as well as Ruby.
 * Pushing our code to Heroku and kicking off the deployment
 
+Note: Heroku (through yarn) since webpacker 4.1.0 will install both production AND development npm packages. Previously (4.0.7 and below) webpacker forced only production packages to be installed. To retain original behavior see https://devcenter.heroku.com/articles/nodejs-support#build-behavior and `YARN_PRODUCTION=true` 
 
 ## Nginx
 
